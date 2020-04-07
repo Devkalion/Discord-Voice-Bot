@@ -7,7 +7,11 @@ client = discord.Client()
 
 async def create_new_channel(member: discord.Member, guild: discord.Guild):
     category = guild.get_channel(Settings.category_channel_id)
-    new_channel: discord.VoiceChannel = await guild.create_voice_channel(member.display_name, category=category)
+    new_channel: discord.VoiceChannel = await guild.create_voice_channel(
+        member.display_name,
+        user_limit=Settings.user_limit,
+        category=category
+    )
     print(f'creating new channel {new_channel.id}')
     await member.move_to(new_channel)
     add_watching_channel(new_channel.id)

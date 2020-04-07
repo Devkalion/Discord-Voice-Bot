@@ -5,6 +5,7 @@ class Settings:
     token = environ['TOKEN']
     watching_channel_id = int(environ['VOICE_CHANNEL'])
     category_channel_id = int(environ['CATEGORY_CHANNEL']) if 'CATEGORY_CHANNEL' in environ else None
+    user_limit = int(environ['USER_LIMIT']) if 'USER_LIMIT' in environ else None
     channels_filename = 'channels.txt'
 
 
