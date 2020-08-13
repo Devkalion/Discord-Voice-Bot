@@ -19,7 +19,8 @@ async def create_new_channel(member: discord.Member, guild: discord.Guild):
 
 
 async def delete_channel_if_empty(channel: discord.VoiceChannel):
-    if not len(channel.members):
+    channel = await client.fetch_channel(channel.id)
+    if channel and not len(channel.members):
         print(f'deleting old channel {channel.id}')
         await channel.delete()
         delete_watching_channel(channel.id)
