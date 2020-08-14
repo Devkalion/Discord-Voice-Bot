@@ -12,14 +12,21 @@ async def create_new_channel(member: discord.Member, guild: discord.Guild):
         user_limit=Settings.user_limit,
         category=category
     )
-    print(f'creating new channel {new_channel.id}')
-    await member.move_to(new_channel)
     add_watching_channel(new_channel.id)
+    print(f'creating new channel {new_channel.id}')
+    try:
+        await member.move_to(new_channel)
+    except discord.errors.HTTPException:
+        await delete_channel_if_empty(new_channel)
+        raise
     await new_channel.set_permissions(member, manage_channels=True)
 
 
 async def delete_channel_if_empty(channel: discord.VoiceChannel):
-    channel = await client.fetch_channel(channel.id)
+    try:
+        channel = await client.fetch_channel(channel.id)
+    except discord.errors.NotFound:
+        return
     if channel and not len(channel.members):
         print(f'deleting old channel {channel.id}')
         await channel.delete()
