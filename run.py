@@ -40,7 +40,8 @@ async def on_ready():
         channel: discord.VoiceChannel = client.get_channel(channel_id)
         if channel is None:
             delete_watching_channel(channel_id)
-        await delete_channel_if_empty(channel)
+        else:
+            await delete_channel_if_empty(channel)
 
 
 @client.event
