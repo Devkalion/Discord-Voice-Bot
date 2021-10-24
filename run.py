@@ -2,7 +2,7 @@ import discord
 
 from utils import Settings, watching_channels, add_watching_channel, delete_watching_channel
 
-client = discord.Client()
+client = discord.Client(intents=discord.Intents(guilds=True, voice_states=True))
 
 
 async def create_new_channel(member: discord.Member, guild: discord.Guild):
