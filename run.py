@@ -6,12 +6,18 @@ client = discord.Client(intents=discord.Intents(guilds=True, voice_states=True))
 
 
 async def create_new_channel(member: discord.Member, guild: discord.Guild):
-    category = guild.get_channel(Settings.category_channel_id)
-    new_channel: discord.VoiceChannel = await guild.create_voice_channel(
-        member.display_name,
-        user_limit=Settings.user_limit,
-        category=category
-    )
+    for category_id in Settings.category_channel_ids:
+        category = guild.get_channel(category_id)
+        try:
+            new_channel: discord.VoiceChannel = await guild.create_voice_channel(
+                member.display_name,
+                user_limit=Settings.user_limit,
+                category=category
+            )
+            break
+        except discord.errors.HTTPException as e:
+            if e.status != 400 or e.code != 50035:
+                raise
     add_watching_channel(new_channel.id)
     print(f'creating new channel {new_channel.id}')
     try:

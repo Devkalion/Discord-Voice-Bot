@@ -4,7 +4,10 @@ from os import environ, path
 class Settings:
     token = environ['TOKEN']
     watching_channel_id = int(environ['VOICE_CHANNEL'])
-    category_channel_id = int(environ['CATEGORY_CHANNEL']) if 'CATEGORY_CHANNEL' in environ else None
+    category_channel_ids = [
+        int(channel_id.strip())
+        for channel_id in environ.get('CATEGORY_CHANNELS', environ.get('CATEGORY_CHANNEL')).split(',')
+    ]
     user_limit = int(environ['USER_LIMIT']) if 'USER_LIMIT' in environ else None
     channels_filename = 'channels.txt'
 
