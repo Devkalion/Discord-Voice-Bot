@@ -1,8 +1,19 @@
 import discord
+from aiohttp import BasicAuth
 
 from utils import Settings, watching_channels, add_watching_channel, delete_watching_channel
 
-client = discord.Client(intents=discord.Intents(guilds=True, voice_states=True))
+
+def get_client():
+    options = {}
+    if Settings.discord_proxy_url:
+        options['proxy'] = Settings.discord_proxy_url
+        options['proxy_auth'] = BasicAuth(Settings.discord_proxy_login, Settings.discord_proxy_password)
+
+    return discord.Client(intents=discord.Intents(guilds=True, voice_states=True), **options)
+
+
+client = get_client()
 
 
 async def create_new_channel(member: discord.Member, guild: discord.Guild):

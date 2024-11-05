@@ -10,6 +10,9 @@ class Settings:
     ]
     user_limit = int(environ['USER_LIMIT']) if 'USER_LIMIT' in environ else None
     channels_filename = 'channels.txt'
+    discord_proxy_url = environ.get('DISCORD_PROXY_URL')
+    discord_proxy_login = environ.get('DISCORD_PROXY_LOGIN')
+    discord_proxy_password = environ.get('DISCORD_PROXY_PASSWORD')
 
 
 def get_watching_channels():
